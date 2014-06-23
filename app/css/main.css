@@ -1,0 +1,134 @@
+
+/*name: CountDown css file
+author: Alexander Borsevici*/
+
+
+*{
+	margin:0px;
+	padding:0px;
+}
+
+body {
+	color: white;
+	cursor: default;
+	width: 200px;
+	font-family:"Arial",Georgia,Serif;
+	-webkit-user-select: none;
+}
+
+#ctrl{
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	height: 15px;
+	background: #6f6f6f;
+	padding: 0 3px 1px 3px;
+	overflow: hidden;
+}
+
+#options{
+	
+}
+
+#add{
+	
+}
+
+#logo{
+	float:right;
+	color:white;
+	margin-top: 4px;
+	font-size: 14px;
+	cursor: default;
+}
+
+.center{
+	text-align: center;
+	display: block;
+	width: 100%;
+	font-size: 14px;
+}
+
+#timers{
+	min-height: 1px;
+}
+
+.timer_wrapper{
+	-webkit-perspective: 600px;
+	-webkit-transition: 500ms;
+}
+
+.timer{
+	background: #6f6f6f;
+	height: 30px;
+	margin: 1px 0;
+	-webkit-transform: rotateX( -91deg ) rotateY( 0deg );
+	-webkit-transform-origin: 100% 0%;
+	-webkit-transition: -webkit-transform 300ms;
+	outline: none;
+	overflow: hidden;
+}
+
+.timer:focus > .selected{
+	background: white;
+}
+
+.show{
+	-webkit-transform: rotateX( 0deg );
+}
+
+.switch{
+	-webkit-transform: rotateY( -100deg );
+}
+
+.selected{
+	width: 8px;
+	height: 11px;
+	position: absolute;
+	cursor: pointer;
+	-webkit-transform: rotateZ(45deg);
+	margin: -8px;
+	border: 2px solid transparent;
+}
+
+.options{
+	height: 18px;
+	display: none;
+	text-align: right;
+	overflow: none;
+}
+
+.time{
+	font-size: 22px;
+	padding-left: 2px;
+	float: left;
+	line-height: 22px;
+	width: 135px;
+	text-align: right;
+}
+
+.control{
+	float: right;
+	padding: 1px;
+}
+
+.set{
+	font-size: 10px;
+	text-align: right;
+	padding: 0 2px;
+	line-height: 11px;
+	height: 10px;
+	outline: none;
+	overflow: hidden;
+}
+
+.icon{
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	margin-right: 2px;
+}
+
+.color{
+	stroke: white;
+	stroke-width:2;
+}

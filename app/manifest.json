@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+
+  "name": "countDown",
+  "description": "__MSG_manifest_descr__",
+  "version": "3.1",
+  "default_locale": "en",
+
+  "offline_enabled": true,
+  "omnibox": { "keyword" : "cd" },
+  "icons": { 
+      "128": "img/icon-128.png",
+      "48": "img/icon-48.png",
+      "19": "img/icon.png"
+	},
+
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  },
+
+  "browser_action": {
+    "default_icon": "img/icon.png",
+    "default_title": "countDown",  
+	"default_popup": "popup.html"
+  },
+
+  "permissions": [
+    "notifications",
+	"background",
+    "tts",
+    "storage",
+    "alarms"
+  ]
+}
