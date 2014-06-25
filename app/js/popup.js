@@ -2,7 +2,6 @@
 /*name: CountDown popup controller
 author: Alexander Borsevici*/
 
-
 // Background Controller
 var Controller;
 chrome.runtime.getBackgroundPage(function(page){Controller=page;Clock.init();});

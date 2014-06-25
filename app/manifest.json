@@ -2,6 +2,7 @@
   "manifest_version": 2,
 
   "name": "countDown",
+  "short_name": "countDown",
   "description": "__MSG_manifest_descr__",
   "version": "3.1",
   "default_locale": "en",

@@ -1,5 +1,5 @@
 
-/*name: CountDown background controller
+/*name: CountDown options controller
 author: Alexander Borsevici*/
 
 // Background Controller

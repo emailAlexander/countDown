@@ -48,6 +48,13 @@ body {
 	font-size: 14px;
 }
 
+#info{
+    background: #6f6f6f;
+    margin: 1px 0;
+    padding: 2px;
+    display: none;
+}
+
 #timers{
 	min-height: 1px;
 }

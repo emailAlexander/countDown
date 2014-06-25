@@ -83,7 +83,7 @@ var Memory={
 		Memory.save();
 		localStorage.clear();
 	},
-	// change in two methods!!! (save load)
+	
 	save:function(){
 		chrome.storage.sync.set({'timers':Memory.timers});
 		chrome.storage.sync.set({"settings":Memory.settings});
@@ -202,14 +202,16 @@ var Clock={
 	alert:function(alarm){
 		// create notification
 		chrome.notifications.create(alarm.name, {
-			  type: "basic",
+			  type: "progress",
 			  title: "countDown",
 			  message: Memory.timers[alarm.name].set,
 			  iconUrl: "img/icon-128.png",
 			  priority: 2,
 			  eventTime: Date.now() + 100000,
 			  buttons: [{title: "Restart"},
-			  			{title: "Dismiss"}],
+			  			{ title: "Dismiss" }],
+              progress: 50,
+			  isClickable: true,
 			}, function crCallback(notID) {
 			   console.log("Succesfully created " + notID + " notification");
 			   chrome.notifications.onButtonClicked.addListener(function (notID,bIndex){
@@ -256,7 +258,7 @@ var Clock={
 
 
 		// play sound
-		var snd = new Audio("alert.mp3");
+		var snd = new Audio("media/alert.mp3");
 		snd.volume=1.0;
 		snd.play();
 
@@ -298,10 +300,10 @@ var Clock={
 
 //Badge Controller
 var Badge={
-	update:function(){
+    update: function () {
 		time=Clock.time();
 		chrome.browserAction.setBadgeBackgroundColor({color: time.c})
-		chrome.browserAction.setBadgeText({text: time.t});
+		chrome.browserAction.setBadgeText({ text: time.t });
 	},
 	clear:function(){
 		chrome.browserAction.setBadgeText({text: ""});
@@ -317,3 +319,21 @@ var History={
 chrome.runtime.onStartup.addListener(Memory.init);
 Memory.init();
 Clock.init();
+
+//Check runtime
+chrome.runtime.onInstalled.addListener(function (details) {
+    if (details.reason == "install") {
+        console.log("This is a first install!");
+    } else if (details.reason == "update") {
+        var thisVersion = chrome.runtime.getManifest().version;
+        console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
+    }
+});
+
+
+
+//for (var i = 0; i < 10; i++) {
+//    // Thanks to the tag, we should only see the "Hi! 9" notification
+//    var n = new Notification("title", {tag:"testing", icon: "img/icon-48.png", body: "notification body" });
+//    console.log(n);
+//}
