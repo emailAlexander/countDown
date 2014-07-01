@@ -8,21 +8,22 @@ author: Alexander Borsevici*/
 	padding:0px;
 }
 
+html {
+    background: #6f6f6f;
+}
+
+
 body {
 	color: white;
 	cursor: default;
-	width: 200px;
+	width: 250px;
 	font-family:"Arial",Georgia,Serif;
 	-webkit-user-select: none;
 }
 
 #ctrl{
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	height: 15px;
-	background: #6f6f6f;
-	padding: 0 3px 1px 3px;
-	overflow: hidden;
+	height: 16px;
+    padding: 3px 3px 1px 3px;
 }
 
 #options{
@@ -36,7 +37,7 @@ body {
 #logo{
 	float:right;
 	color:white;
-	margin-top: 4px;
+	margin-top: 3px;
 	font-size: 14px;
 	cursor: default;
 }
@@ -49,10 +50,8 @@ body {
 }
 
 #info{
-    background: #6f6f6f;
     margin: 1px 0;
     padding: 2px;
-    display: none;
 }
 
 #timers{
@@ -65,18 +64,53 @@ body {
 }
 
 .timer{
-	background: #6f6f6f;
-	height: 30px;
-	margin: 1px 0;
-	-webkit-transform: rotateX( -91deg ) rotateY( 0deg );
+	background: #888;
+	height: 50px;
+	margin: 3px 0;
+    padding: 3px 3px 0 0;
+	-webkit-transform: rotateX( -93deg ) rotateY( 0deg );
 	-webkit-transform-origin: 100% 0%;
 	-webkit-transition: -webkit-transform 300ms;
+    -webkit-transition-timing-function: cubic-bezier(0.445, 0.050, 0.550, 0.950);
 	outline: none;
 	overflow: hidden;
+    box-shadow: 0px -5px 10px -7px rgba(50, 50, 50, 1);
 }
 
-.timer:focus > .selected{
-	background: white;
+.timer:hover {
+    box-shadow: 0px -7px 10px -7px rgba(50, 50, 50, 1);
+}
+
+.selected{
+    width: 24px;
+    position: absolute;
+    cursor: pointer;
+    padding: 3px;
+    margin-top: 10px;
+}
+
+.selected .icon path{
+    -webkit-transform: rotate(0deg);
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transition: all 500ms;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.selected .tagged path{
+   -webkit-transform: rotate(135deg);
+}
+
+.selected .icon {
+	width: 16px;
+    height: 16px;
+    -webkit-filter: drop-shadow( 0px 1px 3px rgba(50, 50, 50, 0));
+    -webkit-transition: all 500ms;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.timer:focus > .selected .icon{
+	width: 20px;
+    height: 20px;
 }
 
 .show{
@@ -84,21 +118,11 @@ body {
 }
 
 .switch{
-	-webkit-transform: rotateY( -100deg );
-}
-
-.selected{
-	width: 8px;
-	height: 11px;
-	position: absolute;
-	cursor: pointer;
-	-webkit-transform: rotateZ(45deg);
-	margin: -8px;
-	border: 2px solid transparent;
+	-webkit-transform: rotateY( -93deg );
 }
 
 .options{
-	height: 18px;
+	height: 50px;
 	display: none;
 	text-align: right;
 	overflow: none;
@@ -108,8 +132,9 @@ body {
 	font-size: 22px;
 	padding-left: 2px;
 	float: left;
+    margin-top: 5px;
 	line-height: 22px;
-	width: 135px;
+	width: 165px;
 	text-align: right;
 }
 
@@ -118,24 +143,84 @@ body {
 	padding: 1px;
 }
 
-.set{
-	font-size: 10px;
-	text-align: right;
-	padding: 0 2px;
-	line-height: 11px;
-	height: 10px;
-	outline: none;
-	overflow: hidden;
+.note{
+    font-size: 14px;
+    text-align: center;
+    padding: 0 2px;
+    line-height: 16px;
+    height: 23px;
+    outline: none;
+    overflow: hidden;
+    margin-top: 32px;
+    width: 100%;
+}
+
+
+.note_edit{
+    font-size: 14px;
+    text-align: center;
+    padding: 2px 2px;
+    height: 13px;
+    overflow: hidden;
+    margin-top: -5px;
+    width: 100%;
+    background: #fff;
+    color: black;
+    -webkit-transition: all 500ms;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.200);
+    box-shadow: 0px -5px 10px -7px rgba(50, 50, 50, 1);
+}
+.note_edit span{
+    margin-top: -20px;
+    display: block;
+    width: 100%;
+    outline: none;
+    -webkit-transition: all 500ms;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.200);
+}
+.note_edit.active{
+    margin-top: -22px;
+}
+.note_edit.active span{
+    margin-top: -3px;
 }
 
 .icon{
-	width: 16px;
-	height: 16px;
+	width: 18px;
+	height: 18px;
 	cursor: pointer;
 	margin-right: 2px;
+    -webkit-filter: drop-shadow( 0px 1px 3px rgba(50, 50, 50, 0.5));
+    
+   
 }
+
+.icon path{
+    width: 18px;
+	height: 18px;
+    -webkit-transition: all 500ms;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.icon:hover path{
+    width: 20px;
+	height: 20px;
+}
+ /*.icon path {
+    fill:red;
+}*/
 
 .color{
 	stroke: white;
 	stroke-width:2;
+}
+
+/*Themes*/
+
+/*Red 1*/
+html.tr1{
+    background:bottom #d00000;
+}
+.timer.tr1{
+    background:bottom #d00000;
 }

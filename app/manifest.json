@@ -9,6 +9,7 @@
 
   "offline_enabled": true,
   "omnibox": { "keyword" : "cd" },
+  
   "icons": { 
       "128": "img/icon-128.png",
       "48": "img/icon-48.png",

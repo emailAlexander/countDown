@@ -36,13 +36,44 @@ var Interface={
 	viewID:0,
 	init:function(){
 		// load all timers
-		setTimeout(function(){Interface.loadTimers();},50);
+	    setTimeout(function () { Interface.loadTimers(); }, 50);
 
 		document.getElementById('add').addEventListener("click",Interface.timerAdd,false);
-		//document.getElementById('options').addEventListener("click",Interface.options,false);	
+		//document.getElementById('options').addEventListener("click", Interface.options, false);
+		document.getElementById('qa').addEventListener("click", Interface.qa, false);
 	},
 	options:function(){
-		window.open("options.html");
+	    window.open("options.html");
+	},
+	qa:function(){
+	    window.open("https://chrome.google.com/webstore/detail/countdown/fefdcjabloofphhfcinhfbinmehfcojm/details?hl=en");
+	},
+	dblClick: function () {
+	    console.log("dblClick");
+	    var noteContent = this.querySelector('.note_edit span').innerHTML;
+	    var note = this.querySelector('.note_edit');
+	    var id = this.id;
+
+	    if (this.querySelector('.note_edit.active') == null) {
+	        note.className = "note_edit active";
+	        this.querySelector('.note_edit span').contentEditable = "true";
+	    }else{
+	        note.className = "note_edit";
+	        this.querySelector('.note_edit span').contentEditable = "false";
+	        this.querySelector('.note').innerHTML = noteContent;
+	        Controller.Memory.timers[id].note = noteContent;
+	        Controller.Memory.timers[id].note = Controller.Memory.timers[id].note.replace(/\s+/g, '  ');
+	        Controller.Memory.save();
+        }
+	   
+	},
+	noteEdit: function () {
+	    var t = document.createEvent("SVGEvents");
+	    t.initEvent("click", true, true);
+	    document.getElementById('timer-' + this.parentNode.parentNode.id).dispatchEvent(t);
+	    var note = this.parentNode.parentNode.querySelector('.note_edit');
+	    note.className = "note_edit active";
+	    this.parentNode.parentNode.querySelector('.note_edit span').contentEditable = "true";
 	},
 	timerAdd:function(id){
 		if (isNaN(id)) {
@@ -54,7 +85,7 @@ var Interface={
 		var timers = document.getElementById("timers") 
 		// build
 		var timer_wrapper = document.createElement('div'); timer_wrapper.setAttribute('class','timer_wrapper');
-		var timer = document.createElement('div');timer.id=id; timer.setAttribute('class','timer');timer.setAttribute('tabindex',Interface.viewID);
+		var timer = document.createElement('div'); timer.id = id; timer.setAttribute('class', 'timer'); timer.setAttribute('tabindex', Interface.viewID);
 
 		var start='<svg class="icon" id="start-'+id+'" viewBox="0 0 32 32"><path d="M16,1.466C7.973,1.466,1.466,7.973,1.466,16c0,8.027,6.507,14.534,14.534,14.534c8.027,0,14.534-6.507,14.534-14.534C30.534,7.973,24.027,1.466,16,1.466zM13,24l0,-16l10,8z" style="fill:#ffffff" /><path d="M16,1.466C7.973,1.466,1.466,7.973,1.466,16c0,8.027,6.507,14.534,14.534,14.534c8.027,0,14.534-6.507,14.534-14.534C30.534,7.973,24.027,1.466,16,1.466zM11,24l0,-16l3,0l0,16l0,-3zM19,24l0,-16l3,0l0,16l0,-3z" style="fill:#ffffff;display:none;" /></svg>';
 		var stop='<svg class="icon" id="stop-'+id+'" viewBox="0 0 32 32"><path d="M16,1.466C7.973,1.466,1.466,7.973,1.466,16c0,8.027,6.507,14.534,14.534,14.534c8.027,0,14.534-6.507,14.534-14.534C30.534,7.973,24.027,1.466,16,1.466zM9,23l0,-14,l14,0l0,14z" style="fill:#ffffff" /></svg>';
@@ -66,9 +97,12 @@ var Interface={
 		var style_option='<svg id="style-'+id+'" class="icon" viewBox="0 0 32 32"><path d="M22.255,19.327l-1.017,0.131c-0.609,0.081-1.067,0.208-1.375,0.382c-0.521,0.293-0.779,0.76-0.779,1.398c0,0.484,0.178,0.867,0.532,1.146c0.354,0.28,0.774,0.421,1.262,0.421c0.593,0,1.164-0.138,1.72-0.412c0.938-0.453,1.4-1.188,1.4-2.229v-1.354c-0.205,0.131-0.469,0.229-0.792,0.328C22.883,19.229,22.564,19.29,22.255,19.327zM8.036,18.273h4.309l-2.113-6.063L8.036,18.273zM28.167,7.75H3.168c-0.552,0-1,0.448-1,1v16.583c0,0.553,0.448,1,1,1h24.999c0.554,0,1-0.447,1-1V8.75C29.167,8.198,28.721,7.75,28.167,7.75zM14.305,23.896l-1.433-4.109H7.488L6,23.896H4.094L9.262,10.17h2.099l4.981,13.727H14.305L14.305,23.896zM26.792,23.943c-0.263,0.074-0.461,0.121-0.599,0.141c-0.137,0.02-0.323,0.027-0.562,0.027c-0.579,0-0.999-0.204-1.261-0.615c-0.138-0.219-0.231-0.525-0.29-0.926c-0.344,0.449-0.834,0.839-1.477,1.169c-0.646,0.329-1.354,0.493-2.121,0.493c-0.928,0-1.688-0.28-2.273-0.844c-0.589-0.562-0.884-1.271-0.884-2.113c0-0.928,0.29-1.646,0.868-2.155c0.578-0.511,1.34-0.824,2.279-0.942l2.682-0.336c0.388-0.05,0.646-0.211,0.775-0.484c0.063-0.146,0.104-0.354,0.104-0.646c0-0.575-0.203-0.993-0.604-1.252c-0.408-0.26-0.99-0.389-1.748-0.389c-0.877,0-1.5,0.238-1.865,0.713c-0.205,0.263-0.34,0.654-0.399,1.174H17.85c0.031-1.237,0.438-2.097,1.199-2.582c0.77-0.484,1.659-0.726,2.674-0.726c1.176,0,2.131,0.225,2.864,0.673c0.729,0.448,1.093,1.146,1.093,2.093v5.766c0,0.176,0.035,0.313,0.106,0.422c0.071,0.104,0.223,0.156,0.452,0.156c0.076,0,0.16-0.005,0.254-0.015c0.093-0.011,0.191-0.021,0.299-0.041L26.792,23.943L26.792,23.943z" style="fill:white" /></svg>';
 		var notification_option='<svg id="notification-'+id+'" class="icon" viewBox="0 0 32 32"><path d="M27.916,23.667V7.333H3.083v16.334H27.916zM24.915,20.668H6.083v-6.501h18.833L24.915,20.668L24.915,20.668z" style="fill:white" /></svg>';
 		var sound_option='<svg id="sound-'+id+'" class="icon" viewBox="0 0 32 32"><path d="M4.998,12.127v7.896h4.495l6.729,5.526l0.004-18.948l-6.73,5.526H4.998z M18.806,11.219c-0.393-0.389-1.024-0.389-1.415,0.002c-0.39,0.391-0.39,1.024,0.002,1.416v-0.002c0.863,0.864,1.395,2.049,1.395,3.366c0,1.316-0.531,2.497-1.393,3.361c-0.394,0.389-0.394,1.022-0.002,1.415c0.195,0.195,0.451,0.293,0.707,0.293c0.257,0,0.513-0.098,0.708-0.293c1.222-1.22,1.98-2.915,1.979-4.776C20.788,14.136,20.027,12.439,18.806,11.219z M21.101,8.925c-0.393-0.391-1.024-0.391-1.413,0c-0.392,0.391-0.392,1.025,0,1.414c1.45,1.451,2.344,3.447,2.344,5.661c0,2.212-0.894,4.207-2.342,5.659c-0.392,0.39-0.392,1.023,0,1.414c0.195,0.195,0.451,0.293,0.708,0.293c0.256,0,0.512-0.098,0.707-0.293c1.808-1.809,2.929-4.315,2.927-7.073C24.033,13.24,22.912,10.732,21.101,8.925z" style="fill:white" /></svg>';
+		var tag = '<svg class="icon" id="tag-' + id + '" viewBox="0 0 32 32"><path d="M16,1.466C7.973,1.466,1.466,7.973,1.466,16c0,8.027,6.507,14.534,14.534,14.534c8.027,0,14.534-6.507,14.534-14.534C30.534,7.973,24.027,1.466,16,1.466zM13.665,25.725l-3.536-3.539l6.187-6.187l-6.187-6.187l3.536-3.536l9.724,9.723L13.665,25.725z" style="fill:#ffffff;" /></svg>';
+		var edit_note = '<svg class="icon" id="edit_note-' + id + '" viewBox="0 0 32 32"><path d="M22.255,19.327l-1.017,0.131c-0.609,0.081-1.067,0.208-1.375,0.382c-0.521,0.293-0.779,0.76-0.779,1.398c0,0.484,0.178,0.867,0.532,1.146c0.354,0.28,0.774,0.421,1.262,0.421c0.593,0,1.164-0.138,1.72-0.412c0.938-0.453,1.4-1.188,1.4-2.229v-1.354c-0.205,0.131-0.469,0.229-0.792,0.328C22.883,19.229,22.564,19.29,22.255,19.327zM8.036,18.273h4.309l-2.113-6.063L8.036,18.273zM28.167,7.75H3.168c-0.552,0-1,0.448-1,1v16.583c0,0.553,0.448,1,1,1h24.999c0.554,0,1-0.447,1-1V8.75C29.167,8.198,28.721,7.75,28.167,7.75zM14.305,23.896l-1.433-4.109H7.488L6,23.896H4.094L9.262,10.17h2.099l4.981,13.727H14.305L14.305,23.896zM26.792,23.943c-0.263,0.074-0.461,0.121-0.599,0.141c-0.137,0.02-0.323,0.027-0.562,0.027c-0.579,0-0.999-0.204-1.261-0.615c-0.138-0.219-0.231-0.525-0.29-0.926c-0.344,0.449-0.834,0.839-1.477,1.169c-0.646,0.329-1.354,0.493-2.121,0.493c-0.928,0-1.688-0.28-2.273-0.844c-0.589-0.562-0.884-1.271-0.884-2.113c0-0.928,0.29-1.646,0.868-2.155c0.578-0.511,1.34-0.824,2.279-0.942l2.682-0.336c0.388-0.05,0.646-0.211,0.775-0.484c0.063-0.146,0.104-0.354,0.104-0.646c0-0.575-0.203-0.993-0.604-1.252c-0.408-0.26-0.99-0.389-1.748-0.389c-0.877,0-1.5,0.238-1.865,0.713c-0.205,0.263-0.34,0.654-0.399,1.174H17.85c0.031-1.237,0.438-2.097,1.199-2.582c0.77-0.484,1.659-0.726,2.674-0.726c1.176,0,2.131,0.225,2.864,0.673c0.729,0.448,1.093,1.146,1.093,2.093v5.766c0,0.176,0.035,0.313,0.106,0.422c0.071,0.104,0.223,0.156,0.452,0.156c0.076,0,0.16-0.005,0.254-0.015c0.093-0.011,0.191-0.021,0.299-0.041L26.792,23.943L26.792,23.943z" style="fill:#ffffff;" /></svg>';
+
 
 		//var options=''+remove_option+'  '+style_option+sound_option+notification_option+cycle_option+sort_option+timer_option;
-		var options=''+remove_option+'  '+timer_option;
+		var options=edit_note+'  '+remove_option+'  '+timer_option;
 		var time;
 
 		// select time to show
@@ -81,7 +115,7 @@ var Interface={
 
 		console.log(Controller.Memory.timers[id].pause);
 
-		timer.innerHTML='<div id="tag-'+id+'" class="selected"></div><div class="options">'+options+'</div><div class="set" spellcheck="false">'+Controller.Memory.timers[id].set+'</div><div class="time">'+time+'</div><div class="control">'+start+stop+option+'</div>';
+		timer.innerHTML = '<div class="options">' + options + '</div><div class="selected">' + tag + '</div><div class="control">' + start + stop + option + '</div><div class="time">' + time + '</div><div class="note" spellcheck="false">' + Controller.Memory.timers[id].note + '</div><div class="note_edit" spellcheck="false"><span>' + Controller.Memory.timers[id].note + '</span></div>';
 
 		timer_wrapper.appendChild(timer);
 		timers.appendChild(timer_wrapper);
@@ -93,8 +127,8 @@ var Interface={
 		}
 
 		// tag
-		if(Controller.Memory.settings.bID==id){
-			document.getElementById('tag-'+id).style.border="2px solid white";
+		if (Controller.Memory.settings.bID == id) {
+		    document.getElementById('tag-' + id).setAttribute("class", "icon tagged");
 		}
 
 
@@ -107,13 +141,16 @@ var Interface={
 		document.getElementById('remove-'+id).addEventListener("click",Interface.timerRemove,false);
 		document.getElementById('tag-'+id).addEventListener("click",Interface.tag,false);
 		document.getElementById('start-'+id).addEventListener("click",Interface.start,false);
-		document.getElementById('stop-'+id).addEventListener("click",Interface.stop,false);
-		
-		// focus on first
-		if(Interface.viewID==1) timer.focus();
+		document.getElementById('stop-' + id).addEventListener("click", Interface.stop, false);
 
+		document.getElementById('edit_note-' + id).addEventListener("click", Interface.noteEdit, false);
+		
 		timer.addEventListener("keydown",Interface.inputListener,false);
-		timer.addEventListener("mousewheel",Interface.inputListener,false);
+		timer.addEventListener("mousewheel", Interface.inputListener, false);
+		timer.addEventListener("dblclick", Interface.dblClick, false);
+
+	    // focus on first
+		if (Interface.viewID == 1) timer.focus();
 
 		// timer.oncontextmenu = function (e)
 		// 	{
@@ -121,22 +158,26 @@ var Interface={
 		// 		console.log(e);
 		// 		return false;
 		// 	}
-		// autofocus
+
+	    // autofocus
 		//timer.addEventListener("mouseover",function(){this.focus()},false);
 		
 		
 	},
 	tag:function(){
-		var timer=this.parentNode;
+		var timer=this.parentNode.parentNode;
 		
 		if(document.getElementById('tag-'+Controller.Memory.settings.bID)){
-			document.getElementById('tag-'+Controller.Memory.settings.bID).style.border="";
+		    document.getElementById('tag-' + Controller.Memory.settings.bID).setAttribute("class", "icon");
 		}
 		
-		//if(Controller.Memory.settings.bID!=timer.id){
+		if(Controller.Memory.settings.bID!=timer.id){
 			Controller.Memory.settings.bID=timer.id;
-			this.style.border="2px solid white";
-		//}else{Controller.Memory.settings.bID=-1;}
+			this.setAttribute("class", "icon tagged");
+		} else {
+		    Controller.Memory.settings.bID = -1;
+		    Controller.Badge.clear();
+		}
 
 		Controller.Clock.start();
 		//save
@@ -165,9 +206,9 @@ var Interface={
 			Controller.Memory.timers[timer.id].pause=0;
 			
 
-			// Update set
-			Controller.Memory.timers[timer.id].set=Controller.Memory.timers[timer.id].set.replace(/((\d{0,3}\s)?\d{2}:\d{2}:\d{2})/,Controller.Memory.convertTime(Controller.Memory.timers[timer.id].time));
-			timer.querySelector('.set').innerHTML=Controller.Memory.timers[timer.id].set;
+			// Update note
+			Controller.Memory.timers[timer.id].note=Controller.Memory.timers[timer.id].note.replace(/((\d{0,4}\s)?\d{2}:\d{2}:\d{2})/,Controller.Memory.convertTime(Controller.Memory.timers[timer.id].time));
+			timer.querySelector('.note').innerHTML=Controller.Memory.timers[timer.id].note;
 			
 			// Clear input log
 			Interface.time[timer.id].input="";
@@ -215,41 +256,41 @@ var Interface={
 
 		// Redraw start
 		document.getElementById('start-'+timer.id).firstChild.style.display="";
-		document.getElementById('start-'+timer.id).lastChild.style.display="none";
+		document.getElementById('start-' + timer.id).lastChild.style.display = "none";
 	},
 	option:function(){
 		var timer=this.parentNode.parentNode;
-		var set=timer.querySelector('.set');
+		var note=timer.querySelector('.note');
 		var op=timer.querySelector('.options');
 		timer.style.webkitTransform="rotateX( 1deg )";
 		setTimeout(function(){
-			timer.style.webkitTransform="rotateX( -91deg )";
+			timer.style.webkitTransform="rotateX( -93deg )";
 		},10);
 		setTimeout(function(){
 			op.style.display="block";
-			set.contentEditable="true";
-			set.style.webkitUserSelect="text";
+			note.contentEditable="true";
+			note.style.webkitUserSelect="text";
 			timer.style.webkitTransform="rotateX( 0deg )";
-		},500);
+		}, 500);
 	},
 	option_save:function(){
 		var timer=this.parentNode.parentNode;
-		var set=timer.querySelector('.set');
+		var note=timer.querySelector('.note');
 		var op=timer.querySelector('.options');
 		var id=timer.id;
 
-		Controller.Memory.timers[id].set=set.innerHTML;
-		Controller.Memory.timers[id].set=Controller.Memory.timers[id].set.replace(/\s+/g, '  ');
+		Controller.Memory.timers[id].note=note.innerHTML;
+		Controller.Memory.timers[id].note=Controller.Memory.timers[id].note.replace(/\s+/g, '  ');
 		Controller.Memory.save();
 
 		timer.style.webkitTransform="rotateX( 1deg )";
 		setTimeout(function(){
-			timer.style.webkitTransform="rotateX( -91deg )";
+			timer.style.webkitTransform="rotateX( -93deg )";
 		},10);
 		setTimeout(function(){
 			op.style.display="none";
-			set.contentEditable="false";
-			set.style.webkitUserSelect="none";
+			note.contentEditable="false";
+			note.style.webkitUserSelect="none";
 			timer.style.webkitTransform="rotateX( 0deg )";
 		},500);
 
@@ -278,8 +319,8 @@ var Interface={
 	updateTime:function(t){
 		var time_div=document.getElementById(t.id);
 		
-		if (t.end==0) {
-			// Redraw start
+		if (t.end == 0) {
+		    // Redraw start
 			document.getElementById('start-'+t.id).firstChild.style.display="";
 			document.getElementById('start-'+t.id).lastChild.style.display="none";
 			return false;
@@ -301,7 +342,7 @@ var Interface={
 			}
 	},
 	inputListener:function(key){
-		if(this.querySelector('.options').style.display=="block") {
+	    if (this.querySelector('.options').style.display == "block") {
 			// option page (set comment)
 			// enter
 			if(key.keyCode==13){
@@ -311,7 +352,30 @@ var Interface={
 				document.getElementById('timer-'+this.id).dispatchEvent(t);
 			}
 			return false;
-		}
+	    }
+	    if (this.querySelector('.note_edit.active') != null) {
+	        //edit note
+	        // enter
+	        if (key.keyCode == 13) {
+	            event.preventDefault();
+	            this.querySelector('.note_edit.active').className = "note_edit";
+	            var noteContent = this.querySelector('.note_edit span').innerHTML;
+	            var id = this.id;
+
+	            this.querySelector('.note_edit span').contentEditable = "false";
+	            this.querySelector('.note').innerHTML = noteContent;
+	            Controller.Memory.timers[id].note = noteContent;
+	            Controller.Memory.timers[id].note = Controller.Memory.timers[id].note.replace(/\s+/g, '  ');
+	            Controller.Memory.save();
+	            
+	        }
+
+	        //if (key.keyCode != 8 && this.querySelector('.note_edit.active span').textContent.length > 31) { // fix! exception!!!!!!!!!!!!!!!!
+	        //    event.preventDefault();
+	        //}
+	        return false;
+	    }
+	   
 
 
 		var time=this.querySelector('.time');
@@ -365,10 +429,10 @@ var Interface={
 		if(key.wheelDelta){
 			console.log(key);
 			var ms=0;
-			if(115<=key.x && key.x<=135) ms=1000;
-			if(85<=key.x && key.x<=110) ms=60000;
-			if(55<=key.x && key.x<=80) ms=3600000;
-			if(10<=key.x && key.x<=50) ms=86400000;
+			if(145<=key.x && key.x<=165) ms=1000;
+			if(115<=key.x && key.x<=130) ms=60000;
+			if(85<=key.x && key.x<=110) ms=3600000;
+			if(40<=key.x && key.x<=80) ms=86400000;
 			new_time=Interface.time[this.id].time+(key.wheelDelta/120)*ms;
 			if(new_time>=0){
 				Interface.time[this.id].time=new_time;
@@ -386,7 +450,7 @@ var Interface={
 
 		// filter non valid keys
 		var is_valid=/([0-9]|n|½)/g;
-		var pattern=/^\d{0,3}n?\d{0,2}n?\d{0,2}n?\d{0,2}$/;
+		var pattern=/^\d{0,4}n?\d{0,2}n?\d{0,2}n?\d{0,2}$/;
 		if (!pattern.test(Interface.time[this.id].input+c) || !is_valid.test(c)) return false;
 
 		// display time

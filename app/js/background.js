@@ -10,21 +10,21 @@ chrome.omnibox.onInputChanged.addListener(
   function(text, suggest) {
     console.log('inputChanged: ' + text);
     suggest([
-      {content: text + " one", description: text+"the first one"},
-      {content: text + " number two", description: "the second entry"}
+      {content: text + " number two", description: "This is not implemented yet :("}
     ]);
   });
 
 // This event is fired with the user accepts the input in the omnibox.
 chrome.omnibox.onInputEntered.addListener(
   function(text) {
-    console.log('inputEntered: ' + text);
+      console.log('inputEntered: ' + text);
+
   });
 
 
 // Storage and Cache Controller
 var Memory={
-	timers:{'1':{'id':1,'start':0,'end':0,'pause':0,'time':0,'set':'  00:00:00'}},
+	timers:{'1':{'id':1,'start':0,'end':0,'pause':0,'time':0,'note':'  00:00:00'}},
 	settings:{'bID':1,'nid':1},
 	init:function(){
 		//chrome.storage.sync.clear();
@@ -72,11 +72,11 @@ var Memory={
 			// set time
 			if (localStorage['set_'+set_id[id]]!=null) var t_time=Memory.parseTime(localStorage['set_'+set_id[id]]);
 				else var t_time=0;
-			// set set :)
-			if (localStorage['note_'+set_id[id]]!=null) var t_set=localStorage['note_'+set_id[id]];
-				else var t_set='  00:00:00';
+			// set note
+			if (localStorage['note_'+set_id[id]]!=null) var t_note=localStorage['note_'+set_id[id]];
+				else var t_note='  00:00:00';
 
-			Memory.timers[id]={'id':id,'start':0,'end':t_end,'pause':t_pause,'time':t_time,'set':t_set};
+			Memory.timers[id]={'id':id,'start':0,'end':t_end,'pause':t_pause,'time':t_time,'note':t_note};
 			Memory.settings.nid=+Memory.settings.nid+1;
 			if (localStorage['set_default']==set_id[id]) Memory.settings.bID=id;
 		}
@@ -119,7 +119,7 @@ var Memory={
 	},
 	newTimer:function(){
 		Memory.settings.nid=+Memory.settings.nid+1;
-		Memory.timers[Memory.settings.nid]={'id':Memory.settings.nid,'start':0,'end':0,'pause':0,'time':0,'set':'  00:00:00'};
+		Memory.timers[Memory.settings.nid]={'id':Memory.settings.nid,'start':0,'end':0,'pause':0,'time':0,'note':'  00:00:00'};
 		Memory.save();
 		return Memory.settings.nid;
 	},
@@ -191,9 +191,12 @@ var Clock={
 					else Badge.update();
 				}
 		}
-		else
-			// if no timer is running - idle
-			Clock.Idle();			
+		else {
+		    // if no timer is running - idle
+		    Clock.Idle();
+		    Badge.clear();
+		}
+			
 	},
 	Idle:function(){
 		clearInterval(Clock.Interval);
@@ -202,15 +205,13 @@ var Clock={
 	alert:function(alarm){
 		// create notification
 		chrome.notifications.create(alarm.name, {
-			  type: "progress",
+			  type: "basic",
 			  title: "countDown",
-			  message: Memory.timers[alarm.name].set,
+			  message: Memory.timers[alarm.name].note,
 			  iconUrl: "img/icon-128.png",
 			  priority: 2,
 			  eventTime: Date.now() + 100000,
-			  buttons: [{title: "Restart"},
-			  			{ title: "Dismiss" }],
-              progress: 50,
+			  buttons: [{title: "Restart"}],
 			  isClickable: true,
 			}, function crCallback(notID) {
 			   console.log("Succesfully created " + notID + " notification");
@@ -255,7 +256,7 @@ var Clock={
 				//chrome.notifications.clear(notID,function clCallback(result){"Cleared"});
 			});
 
-
+		//test = setInterval(function () { chrome.notifications.update(alarm.name, { title: "countDown re", message: alarm.set }, function crCallback(notID) { console.log("ok");}); }, 1000);
 
 		// play sound
 		var snd = new Audio("media/alert.mp3");
@@ -267,6 +268,29 @@ var Clock={
 		Memory.timers[alarm.name].pause=0;
 		
 		Memory.save();
+
+	    //window.open("https://www.youtube.com/watch?v=PowGPSdAxTI", '_blank');
+		//var win = window.open("skype:?");
+	    //setTimeout(function () { win.close(); },1000,win);	   
+
+		//chrome.windows.getLastFocused(
+        // // Without this, window.tabs is not populated.
+        // { populate: true },
+        // function (window) {
+        //     var foundSelected = false;
+        //     for (var i = 0; i < window.tabs.length; i++) {
+        //         // Finding the selected tab.
+        //         if (window.tabs[i].active) {
+        //             foundSelected = true;
+        //         }
+        //             // Finding the next tab.
+        //         else if (foundSelected) {
+        //             // Selecting the next tab.
+        //             chrome.tabs.update(window.tabs[i].id, { active: true });
+        //             return;
+        //         }
+        //     }
+        // });
 	},
 	time:function(){
 		var time={};
