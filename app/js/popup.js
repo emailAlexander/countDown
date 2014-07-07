@@ -115,7 +115,7 @@ var Interface={
 
 		console.log(Controller.Memory.timers[id].pause);
 
-		timer.innerHTML = '<div class="options">' + options + '</div><div class="selected">' + tag + '</div><div class="control">' + start + stop + option + '</div><div class="time">' + time + '</div><div class="note" spellcheck="false">' + Controller.Memory.timers[id].note + '</div><div class="note_edit" spellcheck="false"><span>' + Controller.Memory.timers[id].note + '</span></div>';
+		timer.innerHTML = '<div class="options">' + options + '</div><div class="selected">' + tag + '</div><div class="control">' + start + stop + option + '</div><div class="time">' + time + '</div><div class="note" spellcheck="false">' + Controller.Memory.timers[id].set + '</div><div class="note_edit" spellcheck="false"><span>' + Controller.Memory.timers[id].set + '</span></div>';
 
 		timer_wrapper.appendChild(timer);
 		timers.appendChild(timer_wrapper);
@@ -207,8 +207,8 @@ var Interface={
 			
 
 			// Update note
-			Controller.Memory.timers[timer.id].note=Controller.Memory.timers[timer.id].note.replace(/((\d{0,4}\s)?\d{2}:\d{2}:\d{2})/,Controller.Memory.convertTime(Controller.Memory.timers[timer.id].time));
-			timer.querySelector('.note').innerHTML=Controller.Memory.timers[timer.id].note;
+			Controller.Memory.timers[timer.id].set=Controller.Memory.timers[timer.id].set.replace(/((\d{0,4}\s)?\d{2}:\d{2}:\d{2})/,Controller.Memory.convertTime(Controller.Memory.timers[timer.id].time));
+			timer.querySelector('.note').innerHTML=Controller.Memory.timers[timer.id].set;
 			
 			// Clear input log
 			Interface.time[timer.id].input="";
@@ -279,8 +279,8 @@ var Interface={
 		var op=timer.querySelector('.options');
 		var id=timer.id;
 
-		Controller.Memory.timers[id].note=note.innerHTML;
-		Controller.Memory.timers[id].note=Controller.Memory.timers[id].note.replace(/\s+/g, '  ');
+		Controller.Memory.timers[id].set=note.innerHTML;
+		Controller.Memory.timers[id].set=Controller.Memory.timers[id].set.replace(/\s+/g, '  ');
 		Controller.Memory.save();
 
 		timer.style.webkitTransform="rotateX( 1deg )";
@@ -364,8 +364,8 @@ var Interface={
 
 	            this.querySelector('.note_edit span').contentEditable = "false";
 	            this.querySelector('.note').innerHTML = noteContent;
-	            Controller.Memory.timers[id].note = noteContent;
-	            Controller.Memory.timers[id].note = Controller.Memory.timers[id].note.replace(/\s+/g, '  ');
+	            Controller.Memory.timers[id].set = noteContent;
+	            Controller.Memory.timers[id].set = Controller.Memory.timers[id].set.replace(/\s+/g, '  ');
 	            Controller.Memory.save();
 	            
 	        }

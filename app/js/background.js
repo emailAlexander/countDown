@@ -24,7 +24,7 @@ chrome.omnibox.onInputEntered.addListener(
 
 // Storage and Cache Controller
 var Memory={
-	timers:{'1':{'id':1,'start':0,'end':0,'pause':0,'time':0,'note':'  00:00:00'}},
+	timers:{'1':{'id':1,'start':0,'end':0,'pause':0,'time':0,'set':'  00:00:00'}},
 	settings:{'bID':1,'nid':1},
 	init:function(){
 		//chrome.storage.sync.clear();
@@ -76,7 +76,7 @@ var Memory={
 			if (localStorage['note_'+set_id[id]]!=null) var t_note=localStorage['note_'+set_id[id]];
 				else var t_note='  00:00:00';
 
-			Memory.timers[id]={'id':id,'start':0,'end':t_end,'pause':t_pause,'time':t_time,'note':t_note};
+			Memory.timers[id]={'id':id,'start':0,'end':t_end,'pause':t_pause,'time':t_time,'set':t_note};
 			Memory.settings.nid=+Memory.settings.nid+1;
 			if (localStorage['set_default']==set_id[id]) Memory.settings.bID=id;
 		}
@@ -90,7 +90,8 @@ var Memory={
 	},
 	load:function(){
 		chrome.storage.sync.get(function(Data){
-			if(Data.settings!==undefined){
+		    if (Data.settings !== undefined) {
+		        console.log(Data.timers);
 				Memory.timers=Data.timers;
 				Memory.settings=Data.settings;
 			}
@@ -119,7 +120,7 @@ var Memory={
 	},
 	newTimer:function(){
 		Memory.settings.nid=+Memory.settings.nid+1;
-		Memory.timers[Memory.settings.nid]={'id':Memory.settings.nid,'start':0,'end':0,'pause':0,'time':0,'note':'  00:00:00'};
+		Memory.timers[Memory.settings.nid]={'id':Memory.settings.nid,'start':0,'end':0,'pause':0,'time':0,'set':'  00:00:00'};
 		Memory.save();
 		return Memory.settings.nid;
 	},
