@@ -208,7 +208,7 @@ var Clock={
 		chrome.notifications.create(alarm.name, {
 			  type: "basic",
 			  title: "countDown",
-			  message: Memory.timers[alarm.name].note,
+			  message: Memory.timers[alarm.name].set,
 			  iconUrl: "img/icon-128.png",
 			  priority: 2,
 			  eventTime: Date.now() + 100000,

@@ -39,7 +39,7 @@ var Interface={
 	    setTimeout(function () { Interface.loadTimers(); }, 50);
 
 		document.getElementById('add').addEventListener("click",Interface.timerAdd,false);
-		//document.getElementById('options').addEventListener("click", Interface.options, false);
+		document.getElementById('options').addEventListener("click", Interface.options, false);
 		document.getElementById('qa').addEventListener("click", Interface.qa, false);
 	},
 	options:function(){
@@ -47,6 +47,9 @@ var Interface={
 	},
 	qa:function(){
 	    window.open("https://chrome.google.com/webstore/detail/countdown/fefdcjabloofphhfcinhfbinmehfcojm/details?hl=en");
+	    //chrome.tabs.create({ 'url': "https://chrome.google.com/webstore/detail/countdown/fefdcjabloofphhfcinhfbinmehfcojm/details?hl=en" }, function (tab) {
+	    //    // Tab opened.
+	    //});
 	},
 	dblClick: function () {
 	    console.log("dblClick");
