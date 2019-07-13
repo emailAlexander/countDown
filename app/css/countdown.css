@@ -1,0 +1,23 @@
+:root
+{
+    --dark-primary-color:       #0288D1;
+    --default-primary-color:    #03A9F4;
+    --light-primary-color:      #B3E5FC;
+    --text-primary-color:       #FFFFFF;
+    --accent-color:             #FFEB3B;
+    --primary-background-color: #B3E5FC;
+    --primary-text-color:       #212121;
+    --secondary-text-color:     #757575;
+    --disabled-text-color:      #BDBDBD;
+    --divider-color:            #BDBDBD;
+}
+
+html {
+    color: var(--theme-primary);
+    background: var(--theme-secondary);
+}
+
+body {
+    margin: 0%;
+    width: 260px
+}

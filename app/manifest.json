@@ -1,37 +1,48 @@
 {
   "manifest_version": 2,
-
   "name": "countDown",
   "short_name": "countDown",
   "description": "__MSG_manifest_descr__",
-  "version": "3.2",
+  "version": "4.0.1",
   "default_locale": "en",
-  "options_page": "options.html",
   "offline_enabled": true,
-  "omnibox": { "keyword" : "cd" },
-  
-  "icons": { 
-      "128": "img/icon-128.png",
-      "48": "img/icon-48.png",
-      "19": "img/icon.png"
-	},
-
-  "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+  "icons": {
+    "128": "img/icon-128.png",
+    "48": "img/icon-48.png",
+    "19": "img/icon.png"
   },
-
+  "background": {
+    "scripts": [
+      "js/countdown.js"
+    ],
+    "persistent": true
+  },
   "browser_action": {
     "default_icon": "img/icon.png",
-    "default_title": "countDown",  
-	"default_popup": "popup.html"
+    "default_title": "countDown",
+    "default_popup": "views/popup.html"
   },
-
   "permissions": [
     "notifications",
-	"background",
+    "background",
     "tts",
-    "storage",
-    "alarms"
-  ]
+    "storage"
+  ],
+  "commands": {
+    "timer-start": {
+      "suggested_key": {
+        "default": "Ctrl+Insert",
+        "mac": "Ctrl+Insert"
+      },
+      "description": "Start current timer"
+    },
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y",
+        "chromeos": "Ctrl+Shift+U",
+        "linux": "Ctrl+Shift+J"
+      }
+    }
+  }
 }

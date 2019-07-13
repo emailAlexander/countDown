@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outDir": "app/js",
+        "experimentalDecorators": true,
+        "target": "es2017",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "lib": ["es2017", "dom"],
+        "watch": true,
+        "removeComments": true
+    }
+ }
